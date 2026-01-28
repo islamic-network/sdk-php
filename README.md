@@ -1,6 +1,8 @@
 # Islamic Network SDK (PHP)
 
-Typed PHP 8.4+ SDK for Islamic Network APIs. This repository includes the AlAdhan and AlQuran namespaces.
+Typed Official PHP 8.4+ SDK for Islamic Network APIs. This repository includes the AlAdhan and AlQuran namespaces.
+
+This SDK replaces the older API clients for the AlAdhan and AlQuran APIs.
 
 Supported APIs:
 - AlAdhan (prayer times, Islamic calendar, qibla, Asma Al Husna)
