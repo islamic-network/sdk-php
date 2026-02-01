@@ -1,12 +1,14 @@
 # Islamic Network SDK (PHP)
 
-Typed Official PHP 8.4+ SDK for Islamic Network APIs. This repository includes the AlAdhan and AlQuran namespaces.
+Typed Official PHP 8.4+ SDK for Islamic Network APIs. This repository includes the AlAdhan, AlQuran, BoycottIsraeli, and Sermons namespaces.
 
 This SDK replaces the older API clients for the AlAdhan and AlQuran APIs.
 
 Supported APIs:
 - AlAdhan (prayer times, Islamic calendar, qibla, Asma Al Husna)
 - AlQuran (surahs, ayahs, sections, editions, search, sajda, meta)
+- BoycottIsraeli (companies, categories, search)
+- Sermons (sources, languages, khutbas by year/month)
 
 ## Installation
 
@@ -77,6 +79,34 @@ echo $ayah->data->text;
 $editions = $alquran->editions(new EditionListRequest(language: 'en', format: 'text'));
 
 echo $editions->data[0]->identifier;
+```
+
+## BoycottIsraeli Usage
+
+```php
+use IslamicNetwork\BoycottIsraeli\BoycottIsraeliClient;
+use IslamicNetwork\BoycottIsraeli\Requests\Companies\CompaniesRequest;
+use IslamicNetwork\BoycottIsraeli\Requests\PaginationOptions;
+
+$boycott = BoycottIsraeliClient::create();
+
+$companies = $boycott->companies(new CompaniesRequest(new PaginationOptions(limit: 5)));
+
+echo $companies->data[0]->name;
+```
+
+## Sermons Usage
+
+```php
+use IslamicNetwork\Sermons\Requests\SermonType;
+use IslamicNetwork\Sermons\Requests\YearSermonsRequest;
+use IslamicNetwork\Sermons\SermonsClient;
+
+$sermons = SermonsClient::create();
+
+$months = $sermons->yearSermons(new YearSermonsRequest('uae-awqaf', 2021, SermonType::Friday));
+
+echo $months[0]->sermons[0]->title;
 ```
 
 ## Testing
