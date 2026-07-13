@@ -14,7 +14,9 @@ final class DtoMapper
     public function __construct(?TreeMapper $mapper = null)
     {
         $this->mapper = $mapper ?? (new MapperBuilder())
-            ->enableFlexibleCasting()
+            ->allowScalarValueCasting()
+            ->allowNonSequentialList()
+            ->allowUndefinedValues()
             ->mapper();
     }
 
