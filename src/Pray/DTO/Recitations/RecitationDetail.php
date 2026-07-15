@@ -1,0 +1,38 @@
+<?php
+
+declare(strict_types=1);
+
+namespace IslamicNetwork\Pray\DTO\Recitations;
+
+/** GET /{salawaats|adhkaars|duas}/{slug} — the full entry. */
+final class RecitationDetail
+{
+    /** @var array<non-empty-string, string> */
+    public readonly array $name;
+
+    /** @var array<non-empty-string, string>|null */
+    public readonly ?array $translations;
+
+    /** @var list<RecitationDayRef> */
+    public readonly array $days;
+
+    /**
+     * @param array<non-empty-string, string> $name
+     * @param array<non-empty-string, string>|null $translations
+     * @param list<RecitationDayRef> $days
+     */
+    public function __construct(
+        public readonly string $id,
+        public readonly string $slug,
+        public readonly string $url,
+        public readonly string $formula,
+        array $name,
+        ?array $translations = null,
+        public readonly ?string $source = null,
+        array $days = [],
+    ) {
+        $this->name = $name;
+        $this->translations = $translations;
+        $this->days = $days;
+    }
+}

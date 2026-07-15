@@ -1,6 +1,6 @@
 # Islamic Network SDK (PHP)
 
-Typed Official PHP 8.4+ SDK for Islamic Network APIs. This repository includes the AlAdhan, AlQuran, BoycottIsraeli, and Sermons namespaces.
+Typed Official PHP 8.4+ SDK for Islamic Network APIs. This repository includes the AlAdhan, AlQuran, BoycottIsraeli, Sermons, Pray, Events, People, Quotes, and Stories namespaces.
 
 This SDK replaces the older API clients for the AlAdhan and AlQuran APIs.
 
@@ -9,6 +9,11 @@ Supported APIs:
 - AlQuran (surahs, ayahs, sections, editions, search, sajda, meta)
 - BoycottIsraeli (companies, categories, search)
 - Sermons (sources, languages, khutbas by year/month)
+- Pray (Hijri devotional calendar: months, holy days, salaats, salawaats, adhkaars, duas, search)
+- Events (Islamic calendar events, Hijri day/month calendar, people, search)
+- People (the canonical person registry: biographies, per-person events and quotes, search)
+- Quotes (quotes with translations, random quote, per-person quotes, search)
+- Stories (teaching stories, tags, image assets, search)
 
 ## Installation
 
@@ -108,6 +113,79 @@ $months = $sermons->yearSermons(new YearSermonsRequest('uae-awqaf', 2021, Sermon
 
 echo $months[0]->sermons[0]->title;
 ```
+
+## Pray Usage
+
+```php
+use IslamicNetwork\Pray\PrayClient;
+use IslamicNetwork\Pray\Requests\Calendar\CalendarDayRequest;
+use IslamicNetwork\Pray\Requests\Calendar\CalendarTodayRequest;
+
+$pray = PrayClient::create();
+
+$today = $pray->calendarToday(new CalendarTodayRequest());
+
+echo $today->data->date->hijri->year;
+
+$ashura = $pray->calendarDay(new CalendarDayRequest(1, 10));
+
+echo $ashura->data->name['en'];
+```
+
+## Events Usage
+
+```php
+use IslamicNetwork\Events\EventsClient;
+use IslamicNetwork\Events\Requests\Calendar\CalendarMonthRequest;
+
+$events = EventsClient::create();
+
+$muharram = $events->calendarMonth(new CalendarMonthRequest(1));
+
+echo $muharram->data->events[0]->title['en'];
+```
+
+## People Usage
+
+```php
+use IslamicNetwork\People\PeopleClient;
+use IslamicNetwork\People\Requests\People\PersonRequest;
+
+$people = PeopleClient::create();
+
+$person = $people->person(new PersonRequest('husayn-ibn-ali'));
+
+echo $person->data->name['en'];
+```
+
+## Quotes Usage
+
+```php
+use IslamicNetwork\Quotes\QuotesClient;
+use IslamicNetwork\Quotes\Requests\Quotes\RandomQuoteRequest;
+
+$quotes = QuotesClient::create();
+
+$random = $quotes->random(new RandomQuoteRequest());
+
+echo $random->data->original->text;
+```
+
+## Stories Usage
+
+```php
+use IslamicNetwork\Ilm\Requests\PaginationOptions;
+use IslamicNetwork\Stories\Requests\Stories\StoriesRequest;
+use IslamicNetwork\Stories\StoriesClient;
+
+$stories = StoriesClient::create();
+
+$latest = $stories->stories(new StoriesRequest(options: new PaginationOptions(limit: 5)));
+
+echo $latest->data[0]->title['en'];
+```
+
+The Pray, Events, People, Quotes, and Stories APIs share conventions: an `{code, status, data}` envelope, a `meta` pagination sibling (`IslamicNetwork\Ilm\DTO\Meta`, driven by `IslamicNetwork\Ilm\Requests\PaginationOptions` — `?page`/`?limit`, default 50, max 200), BCP 47 language keys on names/titles (`ar-Latn` is the transliteration), and prose fields as maps of language code to `IslamicNetwork\Ilm\DTO\Prose` (`{raw, html}`). Optional fields omitted by the APIs surface as `null` (or empty arrays) on the DTOs. Story image assets are returned as `IslamicNetwork\Http\BinaryResponse` via `StoriesClient::asset()`.
 
 ## Testing
 
