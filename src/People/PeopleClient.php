@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace IslamicNetwork\People;
 
 use Illuminate\Http\Client\Factory;
+use IslamicNetwork\Http\BinaryResponse;
 use IslamicNetwork\Http\HttpClient;
 use IslamicNetwork\People\DTO\People\PeopleResponse;
 use IslamicNetwork\People\DTO\People\PersonEventsResponse;
 use IslamicNetwork\People\DTO\People\PersonQuotesResponse;
 use IslamicNetwork\People\DTO\People\PersonResponse;
 use IslamicNetwork\People\DTO\Search\SearchResponse;
+use IslamicNetwork\People\Requests\Assets\AssetRequest;
 use IslamicNetwork\People\Requests\People\PeopleRequest;
 use IslamicNetwork\People\Requests\People\PersonEventsRequest;
 use IslamicNetwork\People\Requests\People\PersonQuotesRequest;
@@ -65,6 +67,11 @@ final class PeopleClient
     public function personQuotes(PersonQuotesRequest $request): PersonQuotesResponse
     {
         return $this->mapResponse(PersonQuotesResponse::class, $request->path(), $request->toQuery());
+    }
+
+    public function asset(AssetRequest $request): BinaryResponse
+    {
+        return $this->http->getBinary($request->path());
     }
 
     public function search(SearchRequest $request): SearchResponse

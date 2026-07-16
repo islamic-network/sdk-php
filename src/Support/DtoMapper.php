@@ -17,6 +17,10 @@ final class DtoMapper
             ->allowScalarValueCasting()
             ->allowNonSequentialList()
             ->allowUndefinedValues()
+            // The APIs evolve additively (new optional fields appear without a
+            // version bump) — an SDK pinned to an older DTO shape must keep
+            // working, so unknown response keys are ignored, never fatal.
+            ->allowSuperfluousKeys()
             ->mapper();
     }
 
