@@ -9,11 +9,16 @@ use IslamicNetwork\Pray\DTO\Common\DayEvent;
 use IslamicNetwork\Pray\DTO\Common\MonthSummary;
 use IslamicNetwork\Pray\DTO\Recitations\RecitationEmbedded;
 
-/** GET /calendar/{month}/{day} — the flagship day record. */
+/**
+ * GET /calendar/{month}/{day} — the flagship day. Every valid Hijri date
+ * resolves: a date with no authored day record serves the unnamed variant,
+ * where `id`/`slug`/`name` and the editorial prose are absent, the
+ * date-matched events are present, and the devotional lists are empty.
+ */
 final class DayDetail
 {
-    /** @var array<non-empty-string, string> */
-    public readonly array $name;
+    /** @var array<non-empty-string, string>|null Absent on unnamed days. */
+    public readonly ?array $name;
 
     /** @var array<non-empty-string, Prose>|null */
     public readonly ?array $description;
@@ -37,7 +42,7 @@ final class DayDetail
     public readonly array $duas;
 
     /**
-     * @param array<non-empty-string, string> $name
+     * @param array<non-empty-string, string>|null $name
      * @param array<non-empty-string, Prose>|null $description
      * @param list<DayEvent> $events
      * @param array<non-empty-string, Prose>|null $what_to_do
@@ -47,12 +52,12 @@ final class DayDetail
      * @param list<RecitationEmbedded> $duas
      */
     public function __construct(
-        public readonly string $id,
-        public readonly string $slug,
         public readonly string $url,
         public readonly int $number,
         public readonly MonthSummary $month,
-        array $name,
+        public readonly ?string $id = null,
+        public readonly ?string $slug = null,
+        ?array $name = null,
         ?array $description = null,
         array $events = [],
         ?array $what_to_do = null,
