@@ -18,6 +18,9 @@ final class RecitationDetail
     /** @var array<non-empty-string, Prose>|null */
     public readonly ?array $description;
 
+    /** @var list<RecitationDetailMonth> */
+    public readonly array $months;
+
     /** @var list<RecitationDayRef> */
     public readonly array $days;
 
@@ -25,6 +28,7 @@ final class RecitationDetail
      * @param array<non-empty-string, string> $name
      * @param array<non-empty-string, string>|null $translations
      * @param array<non-empty-string, Prose>|null $description
+     * @param list<RecitationDetailMonth> $months
      * @param list<RecitationDayRef> $days
      */
     public function __construct(
@@ -36,11 +40,13 @@ final class RecitationDetail
         ?array $translations = null,
         ?array $description = null,
         public readonly ?string $source = null,
+        array $months = [],
         array $days = [],
     ) {
         $this->name = $name;
         $this->translations = $translations;
         $this->description = $description;
+        $this->months = $months;
         $this->days = $days;
     }
 }
