@@ -190,3 +190,13 @@ The Pray, Events, People, Quotes, and Stories APIs share conventions: an `{code,
 ## Testing
 
 Integration tests call live API endpoints. When a 429 or timeout occurs, the client waits 1 second and retries once.
+
+---
+
+<p>
+  <a href="https://islamic.network"><img src="assets/islamic-network.svg" alt="Islamic Network" height="40"></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://bahriya.cloud/product/containers"><img src="assets/bahriya.svg" alt="Bahriya" height="40"></a>
+</p>
+
+An [Islamic Network](https://islamic.network) project, hosted on [Bahriya's Distributed Container Platform](https://bahriya.cloud/product/containers).
