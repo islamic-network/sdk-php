@@ -61,6 +61,27 @@ $asma = $client->asmaAlHusna()->byNumber(new AsmaAlHusnaByNumberRequest([1, 2, 3
 echo $asma->data[0]->en->meaning;
 ```
 
+### Using your own geocoding credentials
+
+Endpoints that resolve an address (`...ByAddress` and `...ByCity`) geocode it on
+AlAdhan's account, and mask the resulting co-ordinates in the response meta. Pass
+your own provider credentials to have the lookup billed to you instead and get the
+real co-ordinates back:
+
+```php
+use IslamicNetwork\AlAdhan\Enums\GeocodingProvider;
+use IslamicNetwork\AlAdhan\Requests\PrayerTimes\PrayerTimesOptions;
+
+$options = new PrayerTimesOptions(
+    geocodingProvider: GeocodingProvider::HERE,
+    geocodingKey: 'your-here-api-key',
+);
+```
+
+Both values are required together; the SDK sends neither unless both are set. Note
+that AlAdhan only spends your key on addresses it has never resolved before, so a
+well-known address costs you nothing.
+
 ## Notes
 
 - All DTOs are hydrated with CuyZ/Valinor for strict typing.
