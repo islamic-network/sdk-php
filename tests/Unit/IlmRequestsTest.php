@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace IslamicNetwork\Tests\Unit;
 
 use IslamicNetwork\Events\Requests\Events\EventRequest;
+use IslamicNetwork\Events\Requests\Events\EventsRequest;
 use IslamicNetwork\Events\Requests\People\PersonEventsRequest;
 use IslamicNetwork\Ilm\Requests\PaginationOptions;
 use IslamicNetwork\People\Requests\People\PeopleRequest;
@@ -52,6 +53,10 @@ final class IlmRequestsTest extends TestCase
 
         $this->assertSame('/people/husayn-ibn-ali/events', $request->path());
         $this->assertSame(['limit' => 3], $request->toQuery());
+
+        $births = new EventsRequest(new PaginationOptions(page: 2), category: 'birth');
+        $this->assertSame(['category' => 'birth', 'page' => 2], $births->toQuery());
+        $this->assertSame([], (new EventsRequest())->toQuery());
     }
 
     public function testPeopleRequestMergesKindAndPagination(): void

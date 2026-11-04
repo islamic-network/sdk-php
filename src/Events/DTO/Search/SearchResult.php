@@ -29,6 +29,8 @@ final class SearchResult
         array $matched_in,
         array $title,
         public readonly ?Year $year = null,
+        /** Optional, additive enum: observance | birth | passing | historical; unknown values may appear. */
+        public readonly ?string $category = null,
     ) {
         $this->matched_in = $matched_in;
         $this->title = $title;

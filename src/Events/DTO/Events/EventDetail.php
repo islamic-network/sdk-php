@@ -38,6 +38,8 @@ final class EventDetail
         ?array $people = null,
         public readonly ?string $source = null,
         public readonly ?Links $links = null,
+        /** Optional, additive enum: observance | birth | passing | historical; unknown values may appear. */
+        public readonly ?string $category = null,
     ) {
         $this->title = $title;
         $this->description = $description;

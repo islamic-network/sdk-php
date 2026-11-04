@@ -31,6 +31,8 @@ final class CalendarEvent
         public readonly ?EventDate $date = null,
         public readonly ?Year $year = null,
         ?array $people = null,
+        /** Optional, additive enum: observance | birth | passing | historical; unknown values may appear. */
+        public readonly ?string $category = null,
     ) {
         $this->title = $title;
         $this->people = $people;
